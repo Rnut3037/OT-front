@@ -1,0 +1,93 @@
+import React, { useState } from 'react';
+
+function Register() {
+  const [formData, setFormData] = useState({
+    username: '',
+    userId: '',
+    password: '',
+    email: ''
+  });
+  const [message, setMessage] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText);
+      }
+
+      await res.json();
+      setMessage('회원가입 성공');
+    } catch (err) {
+      setMessage('회원가입 실패: ' + err.message);
+    }
+  };
+
+  return (
+    <div className="register-container">
+      <h2>회원가입</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>이름</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>아이디</label>
+          <input
+            type="text"
+            name="userId"
+            value={formData.userId}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>비밀번호</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label>이메일</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit">가입하기</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
+  );
+}
+
+export default Register;
