@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
+import Layout from './Layout';
 
 function Login() {
   const navigate = useNavigate();
@@ -53,6 +55,8 @@ function Login() {
   };
 
   return (
+    <Layout>
+
     <div className="login-container">
       <h2>로그인</h2>
       <form onSubmit={handleSubmit}>
@@ -64,7 +68,7 @@ function Login() {
             value={formData.userId}
             onChange={handleChange}
             required
-          />
+            />
         </div>
         <div>
           <label>비밀번호</label>
@@ -74,13 +78,14 @@ function Login() {
             value={formData.password}
             onChange={handleChange}
             required
-          />
+            />
         </div>
         <button type="submit">로그인</button>
       </form>
 
       <button onClick={handleGoToRegister}>회원가입 하러 가기</button>
     </div>
+            </Layout>
   );
 }
 

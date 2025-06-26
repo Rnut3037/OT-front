@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './Register.css';
+import Layout from './Layout';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -40,6 +42,8 @@ function Register() {
   };
 
   return (
+    <Layout>
+
     <div className="register-container">
       <h2>회원가입</h2>
       <form onSubmit={handleSubmit}>
@@ -51,7 +55,7 @@ function Register() {
             value={formData.username}
             onChange={handleChange}
             required
-          />
+            />
         </div>
         <div>
           <label>아이디</label>
@@ -61,7 +65,7 @@ function Register() {
             value={formData.userId}
             onChange={handleChange}
             required
-          />
+            />
         </div>
         <div>
           <label>비밀번호</label>
@@ -71,7 +75,7 @@ function Register() {
             value={formData.password}
             onChange={handleChange}
             required
-          />
+            />
         </div>
         <div>
           <label>이메일</label>
@@ -81,12 +85,13 @@ function Register() {
             value={formData.email}
             onChange={handleChange}
             required
-          />
+            />
         </div>
         <button type="submit">가입하기</button>
       </form>
       {message && <p>{message}</p>}
     </div>
+    </Layout>
   );
 }
 
