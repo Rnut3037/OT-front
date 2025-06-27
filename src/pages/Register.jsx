@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ 추가
 import './Register.css';
 import Layout from './Layout';
 
@@ -9,7 +10,8 @@ function Register() {
     password: '',
     email: ''
   });
-  const [message, setMessage] = useState('');
+
+  const navigate = useNavigate(); // ✅ 네비게이터 훅 사용
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,66 +33,44 @@ function Register() {
 
       if (!res.ok) {
         const errorText = await res.text();
-        throw new Error(errorText);
+        alert('회원가입 실패: ' + errorText);
+        window.location.reload();
+        return;
       }
 
       await res.json();
-      setMessage('회원가입 성공');
+      alert('회원가입 성공');
+      navigate('/'); // ✅ 로그인 페이지로 이동
     } catch (err) {
-      setMessage('회원가입 실패: ' + err.message);
+      alert('회원가입 실패: 서버 오류\n' + err.message);
+      window.location.reload();
     }
   };
 
   return (
     <Layout>
-
-    <div className="register-container">
-      <h2>회원가입</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>이름</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            />
-        </div>
-        <div>
-          <label>아이디</label>
-          <input
-            type="text"
-            name="userId"
-            value={formData.userId}
-            onChange={handleChange}
-            required
-            />
-        </div>
-        <div>
-          <label>비밀번호</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            />
-        </div>
-        <div>
-          <label>이메일</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            />
-        </div>
-        <button type="submit">가입하기</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+      <div className="register-container">
+        <h2>회원가입</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>이름</label>
+            <input type="text" name="username" value={formData.username} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>아이디</label>
+            <input type="text" name="userId" value={formData.userId} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>비밀번호</label>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+          </div>
+          <div>
+            <label>이메일</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+          </div>
+          <button type="submit">가입하기</button>
+        </form>
+      </div>
     </Layout>
   );
 }
