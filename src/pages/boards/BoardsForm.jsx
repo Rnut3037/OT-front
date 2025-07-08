@@ -15,7 +15,7 @@ function BoardForm() {
     fetch('/api/boards', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content, authorId: userId })
+      body: JSON.stringify({title, content, authorId: parseInt(userId)})
     })
       .then(() => navigate('/boards'))
       .catch(err => console.error('작성 실패:', err));
